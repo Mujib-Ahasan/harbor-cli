@@ -33,6 +33,7 @@ func UserPasswordChangeCmd() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			var userId int64
 			var err error
+			log.SetOutput(cmd.OutOrStderr())
 			resetView := &reset.PasswordChangeView{
 				NewPassword:     opts.NewPassword,
 				ConfirmPassword: opts.ConfirmPassword,
@@ -49,12 +50,16 @@ func UserPasswordChangeCmd() *cobra.Command {
 					return
 				}
 			} else {
-				userId = prompt.GetUserIdFromUser()
+				userId, err = prompt.GetUserIdFromUser()
+				if err != nil {
+					log.Errorf("failed to get user id: %v", err)
+					return
+				}
 			}
 
 			reset.ChangePasswordView(resetView)
 
-			err = api.ResetPassword(userId, opts)
+			err = api.ResetPassword(userId, *resetView)
 			if err != nil {
 				if isUnauthorizedError(err) {
 					log.Error("Permission denied: Admin privileges are required to execute this command.")
