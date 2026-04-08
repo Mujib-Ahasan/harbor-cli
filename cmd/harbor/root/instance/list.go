@@ -55,7 +55,7 @@ This command provides an easy way to view all instances along with their details
 					[]string{"id", "name", "description", "endpoint", "vendor", "status", "enabled", "auth_mode"},
 				)
 				if qErr != nil {
-					log.Fatalf("Failed to build query parameters: %v", qErr)
+					log.Errorf("Failed to build query parameters: %v", qErr)
 				}
 
 				opts.Q = q
