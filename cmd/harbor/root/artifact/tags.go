@@ -100,6 +100,7 @@ func ListTagsCmd() *cobra.Command {
 				)
 				if qErr != nil {
 					log.Errorf("error while building query parameter: %v", qErr)
+					return
 				}
 
 				opts.Q = q
