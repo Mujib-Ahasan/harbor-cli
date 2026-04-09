@@ -84,7 +84,7 @@ Examples:
 						"editable", "disable"},
 				)
 				if qErr != nil {
-					log.Errorf("failed to build query parameters: %v", qErr)
+					return qErr
 				}
 
 				opts.Q = q
